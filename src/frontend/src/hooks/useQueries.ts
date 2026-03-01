@@ -36,7 +36,7 @@ export const FRONTEND_PRODUCTS: Product[] = [
       "A delightful set of 6 handmade mini ceramic planters in soft pink and white with playful stripe, polka dot, and floral heart prints. Perfect for succulents and small plants. Sustainable, biodegradable, and full of charm.",
     price: BigInt(17900),
     discountPrice: undefined,
-    imageUrl: "/assets/uploads/Screenshot-2026-03-01-142631-1.png",
+    imageUrl: "/assets/uploads/image-8-1.png",
     tags: ["Handmade", "Planters", "Sustainable", "Set of 6"],
     inStock: true,
   },
