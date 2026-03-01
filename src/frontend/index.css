@@ -1,0 +1,227 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   SeethaCeramics Design Tokens — OKLCH Color System
+   Light theme only: blush pink, sage green, warm cream, gold
+   ============================================================ */
+
+@layer base {
+  :root {
+    --radius: 0.75rem;
+
+    /* ── Background & Surface ── */
+    --background: 0.977 0.008 70;          /* warm cream #faf5ed */
+    --foreground: 0.20 0.018 55;           /* deep warm brown, slightly richer */
+
+    --card: 1 0 0;                          /* pure white cards */
+    --card-foreground: 0.20 0.018 55;
+
+    --popover: 1 0 0;
+    --popover-foreground: 0.20 0.018 55;
+
+    /* ── Brand Colors ── */
+    /* Primary = sage green */
+    --primary: 0.52 0.07 155;              /* muted sage green */
+    --primary-foreground: 1 0 0;
+
+    /* Secondary = blush pink */
+    --secondary: 0.92 0.04 15;            /* soft blush pink */
+    --secondary-foreground: 0.20 0.018 55;
+
+    /* Accent = warm gold */
+    --accent: 0.78 0.08 75;               /* very light soft gold */
+    --accent-foreground: 0.20 0.018 55;
+
+    /* Muted surfaces */
+    --muted: 0.96 0.012 60;              /* off-cream */
+    --muted-foreground: 0.50 0.022 58;   /* warmer muted text */
+
+    /* ── Semantic ── */
+    --destructive: 0.577 0.245 27.325;
+    --destructive-foreground: 0.985 0 0;
+
+    --border: 0.90 0.02 60;
+    --input: 0.90 0.02 60;
+    --ring: 0.52 0.07 155;
+
+    /* ── Charts ── */
+    --chart-1: 0.52 0.07 155;
+    --chart-2: 0.75 0.09 15;
+    --chart-3: 0.78 0.08 75;
+    --chart-4: 0.65 0.06 145;
+    --chart-5: 0.88 0.06 25;
+
+    /* ── Sidebar ── */
+    --sidebar: 0.97 0.01 65;
+    --sidebar-foreground: 0.20 0.018 55;
+    --sidebar-primary: 0.52 0.07 155;
+    --sidebar-primary-foreground: 1 0 0;
+    --sidebar-accent: 0.92 0.04 15;
+    --sidebar-accent-foreground: 0.20 0.018 55;
+    --sidebar-border: 0.90 0.02 60;
+    --sidebar-ring: 0.52 0.07 155;
+
+    /* ── SeethaCeramics Brand Tokens ── */
+    --blush: 0.88 0.07 12;               /* #f2b5c0 equivalent */
+    --blush-light: 0.96 0.04 12;         /* very light blush */
+    --blush-dark: 0.68 0.11 14;          /* richer, deeper pink for text */
+    --sage: 0.56 0.08 155;              /* muted sage green */
+    --sage-light: 0.90 0.04 155;         /* light sage bg */
+    --sage-dark: 0.38 0.10 155;          /* dark sage for text — high contrast */
+    --cream: 0.977 0.008 70;             /* #faf5ed equivalent */
+    --cream-dark: 0.94 0.018 72;         /* slightly deeper cream */
+    --gold: 0.75 0.09 72;               /* richer gold */
+    --gold-light: 0.94 0.04 72;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Figtree', -apple-system, system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Display headings — Playfair with tighter tracking for luxury feel */
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    font-feature-settings: "kern" 1;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  h3, h4, h5, h6 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+}
+
+@layer utilities {
+  /* Brand color utilities */
+  .bg-blush { background-color: oklch(var(--blush)); }
+  .bg-blush-light { background-color: oklch(var(--blush-light)); }
+  .bg-sage { background-color: oklch(var(--sage)); }
+  .bg-sage-light { background-color: oklch(var(--sage-light)); }
+  .bg-cream { background-color: oklch(var(--cream)); }
+  .bg-cream-dark { background-color: oklch(var(--cream-dark)); }
+  .bg-gold { background-color: oklch(var(--gold)); }
+  .bg-gold-light { background-color: oklch(var(--gold-light)); }
+
+  .text-blush { color: oklch(var(--blush)); }
+  .text-blush-dark { color: oklch(var(--blush-dark)); }
+  .text-sage { color: oklch(var(--sage)); }
+  .text-sage-dark { color: oklch(var(--sage-dark)); }
+  .text-gold { color: oklch(var(--gold)); }
+
+  .border-blush { border-color: oklch(var(--blush)); }
+  .border-sage { border-color: oklch(var(--sage)); }
+  .border-gold { border-color: oklch(var(--gold)); }
+
+  /* ── Gradient utilities ── */
+
+  /* Hero: deep blush left → warm cream centre → barely-gold right */
+  .gradient-blush {
+    background: linear-gradient(
+      125deg,
+      oklch(0.93 0.055 12) 0%,
+      oklch(var(--cream)) 55%,
+      oklch(var(--gold-light)) 100%
+    );
+  }
+
+  .gradient-sage {
+    background: linear-gradient(
+      135deg,
+      oklch(var(--sage-light)) 0%,
+      oklch(var(--cream)) 100%
+    );
+  }
+
+  /* Serif headings */
+  .font-serif { font-family: 'Playfair Display', Georgia, serif; }
+  .font-sans  { font-family: 'Figtree', -apple-system, system-ui, sans-serif; }
+
+  /* Shadows */
+  .shadow-soft {
+    box-shadow:
+      0 2px 24px 0 oklch(var(--blush) / 0.18),
+      0 1px 4px  0 oklch(0 0 0 / 0.05);
+  }
+  .shadow-soft-lg {
+    box-shadow:
+      0 12px 48px 0 oklch(var(--blush) / 0.22),
+      0 4px 12px  0 oklch(0 0 0 / 0.08);
+  }
+  .shadow-sage {
+    box-shadow:
+      0 2px 20px 0 oklch(var(--sage) / 0.18),
+      0 1px 4px  0 oklch(0 0 0 / 0.05);
+  }
+  .shadow-gold {
+    box-shadow:
+      0 2px 20px 0 oklch(var(--gold) / 0.22),
+      0 1px 4px  0 oklch(0 0 0 / 0.04);
+  }
+
+  /* Product card hover — lift with blush glow */
+  .card-hover {
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.25s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      0 12px 40px 0 oklch(var(--blush) / 0.22),
+      0 2px 8px   0 oklch(0 0 0 / 0.07);
+  }
+
+  /* Line clamp */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Decorative ceramic circle — used in hero */
+  .ceramic-circle {
+    border-radius: 50%;
+    background: radial-gradient(
+      ellipse at 35% 30%,
+      oklch(var(--cream)) 0%,
+      oklch(var(--blush-light)) 45%,
+      oklch(var(--blush) / 0.6) 100%
+    );
+    box-shadow:
+      inset 0 4px 24px 0 oklch(var(--gold) / 0.12),
+      0 8px 40px 0 oklch(var(--blush) / 0.25);
+  }
+}
