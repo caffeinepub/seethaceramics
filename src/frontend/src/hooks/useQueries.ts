@@ -36,7 +36,7 @@ export const FRONTEND_PRODUCTS: Product[] = [
       "A delightful set of 6 handmade mini ceramic planters in soft pink and white with playful stripe, polka dot, and floral heart prints. Perfect for succulents and small plants. Sustainable, biodegradable, and full of charm.",
     price: BigInt(17900),
     discountPrice: undefined,
-    imageUrl: "/assets/uploads/image-8-1.png",
+    imageUrl: "/assets/uploads/Screenshot-2026-03-01-153632-1-1.png",
     tags: ["Handmade", "Planters", "Sustainable", "Set of 6"],
     inStock: true,
   },
@@ -84,7 +84,7 @@ export const FRONTEND_PRODUCTS: Product[] = [
       "A handmade ceramic egg holder for 6 eggs with a sweet red heart-print design. Glossy white finish, beautifully crafted. Keeps your eggs safe and adds a charming touch to your kitchen counter.",
     price: BigInt(15400),
     discountPrice: undefined,
-    imageUrl: "/assets/uploads/ChatGPT-Image-Mar-1-2026-03_05_43-PM-1.png",
+    imageUrl: "/assets/uploads/Screenshot-2026-03-01-150247-1.png",
     tags: ["Handmade", "Kitchen", "Sustainable", "Affordable"],
     inStock: true,
   },
@@ -149,20 +149,26 @@ function mergeProducts(backendProducts: Product[]): Product[] {
 export function useProducts() {
   const { actor, isFetching } = useActor();
   return useQuery<Product[]>({
-    queryKey: ["products"],
+    queryKey: ["products", !!actor],
     queryFn: async () => {
       if (!actor) return mergeProducts([]);
-      const products = await actor.getProducts();
-      return mergeProducts(products);
+      try {
+        const products = await actor.getProducts();
+        return mergeProducts(products);
+      } catch {
+        return mergeProducts([]);
+      }
     },
-    enabled: !!actor && !isFetching,
+    // Always run — show frontend products immediately, upgrade when actor is ready
+    enabled: !isFetching,
+    staleTime: 0,
   });
 }
 
 export function useProductsByCategory(category: string) {
   const { actor, isFetching } = useActor();
   return useQuery<Product[]>({
-    queryKey: ["products", category],
+    queryKey: ["products", category, !!actor],
     queryFn: async () => {
       if (!actor) {
         const all = mergeProducts([]);
@@ -172,17 +178,27 @@ export function useProductsByCategory(category: string) {
               (p) => p.category.toLowerCase() === category.toLowerCase(),
             );
       }
-      if (category === "All") {
-        const products = await actor.getProducts();
-        return mergeProducts(products);
+      try {
+        if (category === "All") {
+          const products = await actor.getProducts();
+          return mergeProducts(products);
+        }
+        const products = await actor.getProductsByCategory(category);
+        const frontendMatches = FRONTEND_PRODUCTS.filter(
+          (p) => p.category.toLowerCase() === category.toLowerCase(),
+        );
+        return [...products, ...frontendMatches];
+      } catch {
+        const all = mergeProducts([]);
+        return category === "All"
+          ? all
+          : all.filter(
+              (p) => p.category.toLowerCase() === category.toLowerCase(),
+            );
       }
-      const products = await actor.getProductsByCategory(category);
-      const frontendMatches = FRONTEND_PRODUCTS.filter(
-        (p) => p.category.toLowerCase() === category.toLowerCase(),
-      );
-      return [...products, ...frontendMatches];
     },
-    enabled: !!actor && !isFetching,
+    enabled: !isFetching,
+    staleTime: 0,
   });
 }
 
